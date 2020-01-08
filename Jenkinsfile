@@ -19,7 +19,7 @@
  */
 def build_shell='''
 env | grep JAVA || /bin/true
-BOOST_VERSION_SCORE=${BOOST_VERSION_DOT//\./_/}
+BOOST_VERSION_SCORE=${BOOST_VERSION_DOT//\\./_/}
 docker build -t boost-builder:${BOOST_VERSION_DOT}-${uname -m}
 if [ -n "${DOCKER_}"]
 docker tag boost-builder:${BOOST_VERSION_DOT}-${uname -m} \
