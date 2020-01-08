@@ -19,7 +19,8 @@
  */
 def build_shell='''
 env | grep JAVA || /bin/true
-BOOST_VERSION_SCORE=${BOOST_VERSION_DOT//\\./_/}
+[ -n "${BOOST_VERSION_DOT} "] || { echo "BOOST_VERSION_DOT undeclared"; exit 16; }
+[ -n "${BOOST_VERSION_SCORE}" ] || { echo "BOOST_VERSION_SCORE undeclared"; exit 16; }
 docker build -t boost-builder:${BOOST_VERSION_DOT}-${uname -m}
 if [ -n "${DOCKER_}"]
 docker tag boost-builder:${BOOST_VERSION_DOT}-${uname -m} \
