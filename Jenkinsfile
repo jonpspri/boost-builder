@@ -39,7 +39,7 @@ docker push ${TARGET_REGISTRY:-docker.io}/${TARGET_PREFIX:-s390xopenwhisk}/boost
  */
 def manifest_shell='''
 registry=${TARGET_REGISTRY:-docker.io}
-prefix=${TARGET_PREFIX:-openwhisk}
+prefix=${TARGET_PREFIX:-s390xopenwhisk}
 rm -rf ~/.docker/manifests
 for i in boost-builder; do
   docker manifest create ${registry}/${prefix}/$i:${BOOST_VERSION_DOT} \
