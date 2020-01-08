@@ -27,8 +27,8 @@ docker build \
   --tag boost-builder:${BOOST_VERSION_DOT}-${arch} \
   .
 docker tag boost-builder:${BOOST_VERSION_DOT}-${arch} \
-  ${TARGET_REGISTRY:-docker.io}/${TARGET_PREFIX:-openwhisks390x}/boost-builder:${BOOST_VERSION_DOT}-${arch}
-docker push ${TARGET_REGISTRY:-docker.io}/${TARGET_PREFIX:-openwhisks390x}/boost-builder:${BOOST_VERSION_DOT}-${arch}
+  ${TARGET_REGISTRY:-docker.io}/${TARGET_PREFIX:-s390xopenwhisk}/boost-builder:${BOOST_VERSION_DOT}-${arch}
+docker push ${TARGET_REGISTRY:-docker.io}/${TARGET_PREFIX:-s390xopenwhisk}/boost-builder:${BOOST_VERSION_DOT}-${arch}
 '''
 
 /*
