@@ -19,15 +19,18 @@
  */
 def build_shell='''
 [ -n "${BOOST_VERSION_DOT}" ] || { echo "BOOST_VERSION_DOT undeclared"; exit 16; }
-[ -n "${BOOST_VERSION_SCORE}" ] || { echo "BOOST_VERSION_SCORE undeclared"; exit 16; }
+BOOST_VERSION_SCORE=${BOOST_VERSION_DOT//./_}
 arch=$(uname -m)
+
 docker build \
   --build-arg "BOOST_VERSION_DOT=${BOOST_VERSION_DOT}" \
   --build-arg "BOOST_VERSION_SCORE=${BOOST_VERSION_SCORE}" \
   --tag boost-builder:${BOOST_VERSION_DOT}-${arch} \
   .
+
 docker tag boost-builder:${BOOST_VERSION_DOT}-${arch} \
   ${TARGET_REGISTRY:-docker.io}/${TARGET_PREFIX:-s390xopenwhisk}/boost-builder:${BOOST_VERSION_DOT}-${arch}
+
 docker push ${TARGET_REGISTRY:-docker.io}/${TARGET_PREFIX:-s390xopenwhisk}/boost-builder:${BOOST_VERSION_DOT}-${arch}
 '''
 
@@ -37,7 +40,7 @@ docker push ${TARGET_REGISTRY:-docker.io}/${TARGET_PREFIX:-s390xopenwhisk}/boost
 def manifest_shell='''
 registry=${TARGET_REGISTRY:-docker.io}
 prefix=${TARGET_PREFIX:-openwhisk}
-rm -rf ~/.docker/manifests  \
+rm -rf ~/.docker/manifests
 for i in boost-builder; do
   docker manifest create ${registry}/${prefix}/$i:${BOOST_VERSION_DOT} \
     ${registry}/${prefix}/$i:${BOOST_VERSION_DOT}-x86_64 \
