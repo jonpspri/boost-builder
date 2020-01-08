@@ -19,7 +19,7 @@
  */
 def build_shell='''
 [ -n "${BOOST_VERSION_DOT}" ] || { echo "BOOST_VERSION_DOT undeclared"; exit 16; }
-BOOST_VERSION_SCORE=${BOOST_VERSION_DOT//./_}
+BOOST_VERSION_SCORE="$(echo ${BOOST_VERSION_DOT} | tr '.' '_')"
 arch=$(uname -m)
 
 docker build \
