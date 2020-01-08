@@ -23,7 +23,7 @@ def build_shell='''
 arch=$(uname -m)
 docker build \
   --build-arg "BOOST_VERSION_DOT=${BOOST_VERSION_DOT}" \
-  --build-arg "BOOST_VERSION_SCORE=${BOOTS_VERSION_SCORE}" \
+  --build-arg "BOOST_VERSION_SCORE=${BOOST_VERSION_SCORE}" \
   --tag boost-builder:${BOOST_VERSION_DOT}-${arch} \
   .
 docker tag boost-builder:${BOOST_VERSION_DOT}-${arch} \
