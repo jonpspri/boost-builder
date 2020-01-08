@@ -18,17 +18,17 @@
  *  registry.  Is there a way to partition that off?  Maybe in a separate step?
  */
 def build_shell='''
-set +x
 [ -n "${BOOST_VERSION_DOT}" ] || { echo "BOOST_VERSION_DOT undeclared"; exit 16; }
 [ -n "${BOOST_VERSION_SCORE}" ] || { echo "BOOST_VERSION_SCORE undeclared"; exit 16; }
+arch=$(uname -m)
 docker build \
-  --build-arg BOOST_VERSION_DOT=${BOOST_VERSION_DOT} \
-  --build-arg BOOST_VERSION_SCORE=${BOOTS_VERSION_SCORE} \
-  --tag boost-builder:${BOOST_VERSION_DOT}-${uname -m} \
+  --build-arg "BOOST_VERSION_DOT=${BOOST_VERSION_DOT}" \
+  --build-arg "BOOST_VERSION_SCORE=${BOOTS_VERSION_SCORE}" \
+  --tag boost-builder:${BOOST_VERSION_DOT}-${arch} \
   .
-docker tag boost-builder:${BOOST_VERSION_DOT}-${uname -m} \
-  ${TARGET_REGISTRY:-docker.io}/${TARGET_PREFIX:-openwhisks390x}/boost-builder:${BOOST_VERSION_DOT}-${uname -m}
-docker push ${TARGET_REGISTRY:-docker.io}/${TARGET_PREFIX:-openwhisks390x}/boost-builder:${BOOST_VERSION_DOT}-${uname -m}
+docker tag boost-builder:${BOOST_VERSION_DOT}-${arch} \
+  ${TARGET_REGISTRY:-docker.io}/${TARGET_PREFIX:-openwhisks390x}/boost-builder:${BOOST_VERSION_DOT}-${arch}
+docker push ${TARGET_REGISTRY:-docker.io}/${TARGET_PREFIX:-openwhisks390x}/boost-builder:${BOOST_VERSION_DOT}-${arch}
 '''
 
 /*
