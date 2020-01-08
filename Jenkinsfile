@@ -55,3 +55,55 @@ for i in boost-builder; do
   docker manifest push ${registry}/${prefix}/$i:${BOOST_VERSION_DOT}
 done
 '''
+
+pipeline {
+  agent none
+  stages {
+    stage('Build') {
+      parallel {
+        stage("Build-x86_64") {
+          agent {
+            label "docker-x86_64"
+          }
+          steps {
+            sh build_shell
+          }
+        }
+        stage("Build-s390x") {
+          agent {
+            label "docker-s390x"
+          }
+          steps {
+            sh build_shell
+          }
+        }
+        stage("Build-aarch64") {
+          agent {
+            label "docker-aarch64"
+          }
+          steps {
+            sh build_shell
+          }
+        }
+        stage("Build-ppc64le") {
+          agent {
+            label "docker-ppc64le"
+          }
+          steps {
+            sh build_shell
+          }
+        }
+      }
+    }
+    stage("Manifest") {
+      agent {
+        // Could be anything capable of running 'docker manifest', but right
+        // now only the x86_64 environment is set up for that.
+       label "docker-x86_64"
+      }
+      steps {
+        sh manifest_shell
+      }
+    }
+  }
+}
