@@ -31,4 +31,4 @@ RUN echo "Retreiving..." \
 
 WORKDIR /boost_${BOOST_VERSION_SCORE}
 RUN ./bootstrap.sh
-RUN ./b2 -q install
+RUN ./b2 -j 1 -q install
