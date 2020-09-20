@@ -1,0 +1,18 @@
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineRun
+metadata:
+  generateName: boost-builder-pipelinerun-
+  namespace: distroless-demo
+spec:
+  params:
+    - name: image-name
+      value: us.icr.io/jps-distroless-demo/boost-builder:1.69.0
+  pipelineRef: { name: boost-builder-pipeline }
+  workspaces:
+    - name: source
+      volumeClaimTemplate:
+        spec:
+          accessModes: [ ReadWriteOnce ]
+          resources: { requests: { storage: 10Gi }}
+          storageClassName: portworx-shared-gp

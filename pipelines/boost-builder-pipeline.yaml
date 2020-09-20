@@ -1,0 +1,39 @@
+---
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: boost-builder-pipeline
+  namespace: distroless-demo
+spec:
+  params:
+    - name: image-name
+      type: string
+  workspaces:
+    - name: source
+  tasks:
+    - name: get-repo
+      taskRef:
+        name: git-clone
+        kind: ClusterTask
+      params:
+        - name: url
+          value: "https://github.com/jonpspri/boost-builder.git"
+      workspaces:
+        - name: output
+          workspace: source
+    - name: build-1-69-0
+      runAfter: [ get-repo ]
+      taskRef:
+        name: buildah
+        kind: ClusterTask
+      params:
+        - name: IMAGE
+          value: "$(params.image-name)"
+        - name: BUILD_EXTRA_ARGS
+          value: >-
+            --build-arg BOOST_VERSION_DOT=1.60.0
+            --build-arg BOOST_VERSION_SCORE=1_69_0
+      workspaces:
+        - name: source
+          workspace: source
+          subPath: './context'
